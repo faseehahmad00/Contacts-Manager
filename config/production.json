@@ -1,0 +1,4 @@
+{
+    "db_url" : "mongodb+srv://faseeh:faseeh@cluster0.dcnl8.mongodb.net/ConnectX?retryWrites=true&w=majority",
+    "privateKey" : "private"   
+}
