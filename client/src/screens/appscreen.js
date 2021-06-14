@@ -2,13 +2,23 @@ import { useLocation } from "react-router-dom";
 
 const Appscreen = (props) => {
     const location = useLocation();
-    console.log(props)
-    return ( 
+    let token = '';
+    try {
+        token = location.state.token
+    } catch (err) {
+        token = null
+    }
+    return (
         <div>
-            <h1>THIS IS MAIN APP SCREEN</h1>
-            <p>user token is {location.state.token} </p>
+            {token && <div>
+                <h1>LOGGED IN SUCCESSFULLY</h1>
+            </div>}
+            {!token && <div>
+                <h1>Unauthorized Access</h1>
+            </div>}
         </div>
-     );
+
+    );
 }
- 
+
 export default Appscreen;
