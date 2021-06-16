@@ -27,7 +27,6 @@ const LoginScreen = () => {
     }
 
     function submitlogin({email,password}) {
-        console.log(email,password)
         setdisabled(true);
         setformsaving(true);
         axios.post('/api/users/login',{
@@ -37,9 +36,10 @@ const LoginScreen = () => {
             .then(function (response) {
                 setdisabled(false);
                 setformsaving(false);
+                localStorage.setItem("token",response.data)
                 history.push({
                     pathname: '/app',
-                    state: { token: response.data }
+                    // state: { token: response.data }
                 });
             })
             .catch(function (error) {
@@ -50,12 +50,10 @@ const LoginScreen = () => {
     }
 
     function submitsignup(data) {
-            console.log(data)
             setdisabled(true);
             setformsaving(true);
             axios.post('/api/users/signup',data)
                 .then(function (response) {
-                    console.log(response);
                     togglelogin()
                 })
                 .catch(function (error) {
