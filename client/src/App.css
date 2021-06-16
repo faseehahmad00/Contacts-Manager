@@ -1,6 +1,17 @@
 .App {
-  text-align: center;
+  /* text-align: center; */
 }
 .container{
   background-color: orange;
+}
+.card{
+  width: 25em;
+  margin :1rem;
+}
+.contactboard{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
 }
