@@ -1,3 +1,5 @@
+//This middle ware authenticated the user and supplies userid on runtime to req-body
+
 var jwt = require('jsonwebtoken');
 const config = require('config');
 const { User } = require('../models/users');
@@ -8,6 +10,7 @@ async function userAuth(req, res, next) {
     try {
         let user = jwt.verify(token, config.get("privateKey"));
         req.user = await User.findById(user._id);
+        req.body.userid = user._id;
         if (!req.user)
             return res.status(403).send("invalid token");
     } catch (err) {

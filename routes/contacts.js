@@ -1,44 +1,50 @@
 var express = require('express');
 var router = express.Router();
-const {Contacts} = require('../models/contacts');
+const { Contacts } = require('../models/contacts');
 const contactValidation = require('../middlewares/contactValidation');
+const userAuth = require('../middlewares/userAuth');
+const adminAuth = require('../middlewares/adminAuth');
 
-router.get('/' ,async function(req, res, next) {
-    let contacts = await(Contacts.find());
+router.get('/usercontacts', userAuth , async function (req, res, next) {         //fetch contacts of certain user based on userid
+    let contact = await (Contacts.find({ userid: req.body.userid }));
+    res.send(contact)
+});
+
+router.get('/', userAuth, adminAuth, async function (req, res, next) {
+    let contacts = await (Contacts.find());
     res.send(contacts)
-  });
+});
 
-router.get('/:id' ,async function(req, res, next) {
-    let contact = await(Contacts.findById(req.params.id));
+router.get('/:id', async function (req, res, next) {
+    let contact = await (Contacts.findById(req.params.id));
     res.send(contact)
 });
 
-router.get('/user/:id' ,async function(req, res, next) {         //fetch contacts of certain user based on userid
-    let contact = await(Contacts.find({userid : req.params.id}));
-    res.send(contact)
+router.delete('/:id', userAuth, async function (req, res, next) {
+    let contact = await (Contacts.findById(req.params.id));
+    if (contact.userid == req.body.userid) {
+        await contact.delete()
+        return res.send(contact)
+    }
+    return res.status(400).send('invalid req')
 });
 
-router.delete('/:id' ,async function(req, res, next) {
-    let contact = await(Contacts.findByIdAndDelete(req.params.id));
-    res.send(contact)
-});
-
-router.put('/:id' ,async function(req, res, next) {
-    let contact = await(Contacts.findById(req.params.id));
-    if(contact)
-        {   
+router.put('/:id',userAuth, async function (req, res, next) {
+    let contact = await (Contacts.findById(req.params.id));
+    if (contact && contact.userid == req.body.userid) {
         contact.name = req.body.name;
         contact.email = req.body.email;
         contact.phone = req.body.phone;
         contact.address = req.body.address;
         contact.userid = req.body.userid;
-        a = contact.save();
-        return res.send(a)}
+        contact.save();
+        return res.send(contact)
+    }
     else
-        res.status(400).send('no such user')
+        return res.status(400).send('no such user')
 });
 
-router.post('/' ,contactValidation,async function(req,res){
+router.post('/', userAuth, contactValidation, async function (req, res) {
     let contact = new Contacts();
     contact.name = req.body.name;
     contact.email = req.body.email;
@@ -48,5 +54,5 @@ router.post('/' ,contactValidation,async function(req,res){
     a = await contact.save()
     return res.send(a)
 })
-  
+
 module.exports = router;
