@@ -5,7 +5,8 @@
   background-color: orange;
 }
 .card{
-  width: 25em;
+  padding: 0.5em;
+  width: 22em;
   margin :1rem;
 }
 .contactboard{
