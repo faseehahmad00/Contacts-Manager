@@ -16,3 +16,18 @@
   justify-content: center;
   align-items: center;
 }
+.loginroot{
+  height: 100vh;
+  background-color: #e5e5f7;
+  opacity: 1;
+  background: linear-gradient(135deg, #f4f4f955 25%, transparent 25%) -4px 0/ 8px 8px, linear-gradient(225deg, #f4f4f9 25%, transparent 25%) -4px 0/ 8px 8px, linear-gradient(315deg, #f4f4f955 25%, transparent 25%) 0px 0/ 8px 8px, linear-gradient(45deg, #f4f4f9 25%, #e5e5f7 25%) 0px 0/ 8px 8px;
+
+}
+.form{
+  margin-top: 2rem;
+  background-color: rgb(255,255,255,0.6);
+  padding : 5rem;
+  max-width: 20rem;
+  border-radius: 25px;
+  box-shadow:1px 1px lightgray;
+}

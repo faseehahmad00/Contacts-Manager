@@ -51,7 +51,7 @@ const Appscreen = (props) => {
             .catch(function (error) {
                 console.log(error);
             });
-    }, [token,contacts.length,contacts])
+    }, [token,contacts.length])
 
     return (
         <div>
