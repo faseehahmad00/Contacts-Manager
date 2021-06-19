@@ -20,10 +20,9 @@ const SidebarSignup = (props) => {
       })
       .catch(function (error) {
         console.log(error);
-      })
-      .then(() => {
+        alert("unable to signup. check your details");
         setdisabled(false);
-      });
+      })
   }
   return (
     <div className={classes.container}>

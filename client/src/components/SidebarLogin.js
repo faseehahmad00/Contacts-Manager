@@ -34,6 +34,7 @@ const SidebarLogin = (props) => {
       .catch(function (error) {
         console.log(error);
         setdisabled(false);
+        alert("unable to login. check email and password")
       })
   }
 

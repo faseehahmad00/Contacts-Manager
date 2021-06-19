@@ -34,6 +34,7 @@ const EditContact = (props) => {
             .catch(function (error) {
                 console.log(error);
                 setdisabled(false);
+                alert("UNABLE TO SAVE CONTACT")
             })
     }
     function fetchuser(data){
@@ -54,7 +55,7 @@ const EditContact = (props) => {
             .catch(function (error) {
                 console.log(error);
                 setdisabled(false);
-                setisloading(false)
+                setisloading(false);
             })
     }
 
@@ -79,7 +80,7 @@ const EditContact = (props) => {
                             render={({ field }) => <TextField
                                 required
                                 type='text'
-                                {...register("name", { minLength: 3 })}
+                                {...register("name", { minLength: 2 })}
                                 error={errors.name ? true : false}
                                 fullWidth label='name' {...field}
                                 style={{ marginTop: "2rem" }}
@@ -108,7 +109,7 @@ const EditContact = (props) => {
                             render={({ field }) => <TextField
                                 required
                                 type='text'
-                                {...register("phone", { minLength: 3 })}
+                                {...register("phone", { minLength: 5 })}
                                 error={errors.phone ? true : false}
                                 fullWidth label='phone' {...field}
                                 style={{ marginTop: "2rem" }}
@@ -123,7 +124,7 @@ const EditContact = (props) => {
                             render={({ field }) => <TextField
                                 required
                                 type='text'
-                                {...register("address", { minLength: 3 })}
+                                {...register("address", { minLength: 2 })}
                                 error={errors.address ? true : false}
                                 fullWidth label='address' {...field}
                                 style={{ marginTop: "2rem" }}

@@ -34,6 +34,7 @@ const Appscreen = (props) => {
             })
             .catch(function (error) {
                 console.log(error);
+                alert('unable to delete.Please try again')
             });
     }
 
@@ -55,6 +56,7 @@ const Appscreen = (props) => {
             })
             .catch(function (error) {
                 console.log(error);
+                console.log("unable to fetch. check your network connection")
             });
     }, [token,contacts.length])
 
