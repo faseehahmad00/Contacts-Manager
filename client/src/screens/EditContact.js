@@ -63,7 +63,7 @@ const EditContact = (props) => {
         setTimeout(() => {
             fetchuser()
         }, 1000); 
-    })
+    },[])
 
     return (
         <div>

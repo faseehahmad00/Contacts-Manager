@@ -18,7 +18,8 @@
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
+  /* min-height: 75vh; */
 }
 .loginroot{
   height: 100vh;

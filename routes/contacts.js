@@ -6,13 +6,15 @@ const userAuth = require('../middlewares/userAuth');
 const adminAuth = require('../middlewares/adminAuth');
 
 router.get('/usercontacts', userAuth , async function (req, res, next) {         //fetch contacts of certain user based on userid
-    let contact = await (Contacts.find({ userid: req.body.userid }));
-    res.send(contact)
+    let page = Number(req.query.page ? req.query.page : 1) ;
+    let perPage = Number(req.query.perPage ? req.query.perPage : 6) ;
+    let contact = await Contacts.find({ userid: req.body.userid }).skip(perPage*(page-1)).limit(perPage);
+    return res.send(contact)
 });
 
 router.get('/', userAuth, adminAuth, async function (req, res, next) {
     let contacts = await (Contacts.find());
-    res.send(contacts)
+    return res.send(contacts)
 });
 
 router.get('/:id', async function (req, res, next) {

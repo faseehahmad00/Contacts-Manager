@@ -73,7 +73,7 @@ const Appscreen = (props) => {
                 <TopBar logout={logout} add={addcontact} />
                 <Container maxWidth='md' >
                     {contacts.length !== 0 &&
-                        <div className="contactboard" style={{ minHeight: '95vh' }} >
+                        <div className="contactboard" >
                             {
                                 contacts.map((d, k) => {
                                     return (
@@ -87,9 +87,11 @@ const Appscreen = (props) => {
                     {
                         contacts.length === 0 && <p>no contacts to display</p>
                     }
-                    <div style={{ display: 'flex', flexDirection: 'row', justifyContent: "center", alignItems: 'center', margin: "1rem" }}>
-                        <Typography>page: {page}</Typography>
-                        <Pagination color='secondary' count={10} page={page} onChange={handleChange} />
+                    <div className="fixed">
+                    <div style={{ display: 'flex',position:'fixed', bottom:0 ,right:0,left:0 , flexDirection: 'row', justifyContent: "center", alignItems: 'center', margin: "1rem" }}>
+                        <Typography variant="caption">page: {page}</Typography>
+                        <Pagination color='secondary' count={3} page={page} onChange={handleChange} />
+                    </div>
                     </div>
                 </Container>
 
