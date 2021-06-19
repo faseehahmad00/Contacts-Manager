@@ -5,10 +5,16 @@ import ContactCard from "../components/contactCard";
 import '../App.css'
 import { useEffect, useState } from "react";
 import axios from 'axios'
+import Typography from '@material-ui/core/Typography';
+import Pagination from '@material-ui/lab/Pagination';
 
 const Appscreen = (props) => {
     let history = useHistory();
     let [contacts, setcontacts] = useState([]);
+    let [page, setpage] = useState(1);
+    const handleChange = (event, value) => {
+        setpage(value);
+    };
     let token = '';
     try {
         token = localStorage.getItem("token")
@@ -20,7 +26,7 @@ const Appscreen = (props) => {
         localStorage.setItem("token", '')
         history.goBack()
     }
-    function addcontact(){
+    function addcontact() {
         history.push('/app/addContact')
     }
     function deleteContact(id) {
@@ -41,8 +47,8 @@ const Appscreen = (props) => {
     function editContact(id) {
         history.push({
             pathname: '/app/editContact',
-            state: { userid :  id}
-          })
+            state: { userid: id }
+        })
     }
 
     useEffect(() => {
@@ -58,31 +64,35 @@ const Appscreen = (props) => {
                 console.log(error);
                 console.log("unable to fetch. check your network connection")
             });
-    }, [token,contacts.length])
+    }, [token, contacts.length, contacts])
 
     return (
         <div>
 
             {token && <div>
                 <TopBar logout={logout} add={addcontact} />
-                <Container maxWidth='md'>
-                    {contacts.length !== 0 && <div className="contactboard">
-                        {
-                            contacts.map((d, k) => {
-                                return (
-                                    <ContactCard key={k} name={d.name} email={d.email}
-                                        phone={d.phone} address={d.address} deleteContact={() => deleteContact(`${d._id}`)}
-                                        editContact={() => editContact(`${d._id}`)}
-                                    />)
-                            })
-
-                        }
-                    </div>}
+                <Container maxWidth='md' >
+                    {contacts.length !== 0 &&
+                        <div className="contactboard" style={{ minHeight: '95vh' }} >
+                            {
+                                contacts.map((d, k) => {
+                                    return (
+                                        <ContactCard className="contactCard" key={k} name={d.name} email={d.email}
+                                            phone={d.phone} address={d.address} deleteContact={() => deleteContact(`${d._id}`)}
+                                            editContact={() => editContact(`${d._id}`)}
+                                        />)
+                                })
+                            }
+                        </div>}
                     {
-                            contacts.length === 0 && <p>no contacts to display</p>
-                        }
-
+                        contacts.length === 0 && <p>no contacts to display</p>
+                    }
+                    <div style={{ display: 'flex', flexDirection: 'row', justifyContent: "center", alignItems: 'center', margin: "1rem" }}>
+                        <Typography>page: {page}</Typography>
+                        <Pagination color='secondary' count={10} page={page} onChange={handleChange} />
+                    </div>
                 </Container>
+
             </div>
             }
 
