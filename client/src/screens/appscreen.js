@@ -52,13 +52,14 @@ const Appscreen = (props) => {
     }
 
     useEffect(() => {
-        axios.get('/api/contacts/usercontacts', {
+        axios.get(`/api/contacts/usercontacts?page=${page}&perPage=6`, {
             headers: {
                 'auth-token': token
             }
         })
             .then(function (response) {
                 setcontacts(response.data)
+                console.log(contacts.length)
             })
             .catch(function (error) {
                 console.log(error);
@@ -72,6 +73,12 @@ const Appscreen = (props) => {
             {token && <div>
                 <TopBar logout={logout} add={addcontact} />
                 <Container maxWidth='md' >
+                    {   
+                        contacts.length === 0 && 
+                        <div style={{display:"flex",justifyContent:"center",alignItems:"center",minHeight:"100vh"}}>
+                        <p style={{marginTop:"80px"}}>no contacts to display</p>
+                        </div>
+                    }
                     {contacts.length !== 0 &&
                         <div className="contactboard" >
                             {
@@ -84,14 +91,10 @@ const Appscreen = (props) => {
                                 })
                             }
                         </div>}
-                    {
-                        contacts.length === 0 && <p>no contacts to display</p>
-                    }
                     <div className="fixed">
-                    <div style={{ display: 'flex',position:'fixed', bottom:0 ,right:0,left:0 , flexDirection: 'row', justifyContent: "center", alignItems: 'center', margin: "1rem" }}>
-                        <Typography variant="caption">page: {page}</Typography>
-                        <Pagination color='secondary' count={3} page={page} onChange={handleChange} />
-                    </div>
+                        <div className="pagination">
+                            <Pagination color='secondary' count={3} page={page} onChange={handleChange} />
+                        </div>
                     </div>
                 </Container>
 

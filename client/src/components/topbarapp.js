@@ -11,7 +11,7 @@ export default function TopBar(props) {
   const classes = useStyles();
   return (
     <div className={classes.root}>
-      <AppBar color="secondary" position="static">
+      <AppBar color="primary" position="static">
         <Toolbar>
           <Typography variant="h4" className={classes.title}>
             CONTACTS
@@ -28,7 +28,12 @@ export default function TopBar(props) {
 const useStyles = makeStyles((theme) => ({
     root: {
       flexGrow: 1,
-      marginBottom:'2rem'
+      marginBottom:'2rem',
+      position:"fixed",
+      top:0 ,
+      right:0,
+      left:0,
+      maxHeight:'65px' 
     },
     title: {
       flexGrow: 1,
