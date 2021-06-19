@@ -17,7 +17,7 @@ const AddContact = () => {
 
     function submitcontact(data) {
         setdisabled(true);
-        axios.post('http://localhost:4000/api/contacts',data,{
+        axios.post('/api/contacts',data,{
             headers: {
                 'auth-token': token
             }

@@ -11,7 +11,6 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 const EditContact = (props) => {
     const location = useLocation();
     const [user,setuser] = useState({name:"faseeh ahmad"})
-    const [name,setname] = useState('hello')
     const [loading,setisloading]  = useState(true)
     let token  = localStorage.getItem('token');
     let history = useHistory();
@@ -22,7 +21,7 @@ const EditContact = (props) => {
 
     function submitcontact(data) {
         setdisabled(true);
-        axios.put('http://localhost:4000/api/contacts/'+location.state.userid , data ,{
+        axios.put('/api/contacts/'+location.state.userid , data ,{
             headers: {
                 'auth-token': token
             }
@@ -40,7 +39,7 @@ const EditContact = (props) => {
     function fetchuser(data){
         setisloading(true)
         setdisabled(true);
-        axios.get('http://localhost:4000/api/contacts/'+location.state.userid , data ,{
+        axios.get('/api/contacts/'+location.state.userid , data ,{
             headers: {
                 'auth-token': token
             }
