@@ -99,8 +99,8 @@ const SidebarLogin = (props) => {
 const useStyles = makeStyles({
   container: {
     minWidth: "400px",
-    backdropFilter: "blur(35px)",
-    backgroundColor: "rgba(255, 255, 255, 0.8)",
+    backdropFilter: "blur(50px)",
+    backgroundColor: "rgba(255, 255, 255, 0.6)",
     height: "100%",
     display: "flex",
     flexDirection: "column",

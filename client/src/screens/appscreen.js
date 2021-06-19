@@ -20,7 +20,9 @@ const Appscreen = (props) => {
         localStorage.setItem("token", '')
         history.goBack()
     }
-
+    function addcontact(){
+        history.push('/app/addContact')
+    }
     function deleteContact(id) {
         axios.delete(`/api/contacts/${id}`, {
             headers: {
@@ -35,8 +37,11 @@ const Appscreen = (props) => {
             });
     }
 
-    function editContact(name) {
-        console.log(`${name} is  editted`)
+    function editContact(id) {
+        history.push({
+            pathname: '/app/editContact',
+            state: { userid :  id}
+          })
     }
 
     useEffect(() => {
@@ -57,7 +62,7 @@ const Appscreen = (props) => {
         <div>
 
             {token && <div>
-                <TopBar logout={logout} />
+                <TopBar logout={logout} add={addcontact} />
                 <Container maxWidth='md'>
                     {contacts.length !== 0 && <div className="contactboard">
                         {

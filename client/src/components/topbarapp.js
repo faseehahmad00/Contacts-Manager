@@ -5,7 +5,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
-
+import AddIcon from '@material-ui/icons/Add';
 
 export default function TopBar(props) {
   const classes = useStyles();
@@ -17,6 +17,7 @@ export default function TopBar(props) {
             CONTACTS
           </Typography>
           {props.showprogress && <CircularProgress/>}
+          <Button disabled={props.disabled} color="inherit" endIcon={<AddIcon/>}  onClick={props.add}/>
           <Button disabled={props.disabled} color="inherit" onClick={props.logout}>Logout</Button>
         </Toolbar>
       </AppBar>
