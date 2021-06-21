@@ -17,19 +17,19 @@ const Welcome = () => {
 const useStyles = makeStyles({
   container: {
     width: "100%",
-  height: "100%",
-  display: "flex",
-  justifyContent: "center",
-  alignItems: "center",
+    height: "100%",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
   },
-  heading:{
-  fontFamily: " 'Lobster', cursive ",
-  fontSize: "60px",
-  fontWeight: "100",
-  color: "#000000",
-  ['@media (max-width:900px)']: { // eslint-disable-line no-useless-computed-key
-    display: "none",
-  },
+  heading: {
+    fontFamily: " 'Lobster', cursive ",
+    fontSize: "60px",
+    fontWeight: "100",
+    color: "#000000",
+    ['@media (max-width:900px)']: { // eslint-disable-line no-useless-computed-key
+      display: "none",
+    },
   }
 });
 export default Welcome;

@@ -7,10 +7,13 @@ import ButtonGroup from '@material-ui/core/ButtonGroup';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import '../App.css'
+import { makeStyles } from '@material-ui/core/styles';
 
-const contactCard = (props) => {
+
+const ContactCard = (props) => {
+    const classes = useStyles();
     return (
-        <div className="card">
+        <div className={classes.contactCard}>
             <Card variant="elevation">
                 <CardContent>
                     <Typography color="textPrimary" gutterBottom>
@@ -36,4 +39,14 @@ const contactCard = (props) => {
     );
 }
 
-export default contactCard;
+
+const useStyles = makeStyles((theme) => ({
+    contactCard: {
+        padding: 0,
+        width: "22em",
+        margin: "1rem",
+    },
+
+}));
+
+export default ContactCard;

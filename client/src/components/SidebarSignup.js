@@ -24,6 +24,7 @@ const SidebarSignup = (props) => {
         setdisabled(false);
       })
   }
+
   return (
     <div className={classes.container}>
       <div >
@@ -143,7 +144,7 @@ const useStyles = makeStyles({
   },
   formheading: {
     fontFamily: " 'Lobster', cursive ",
-    fontSize:'2rem',
+    fontSize: '2rem',
     color: "#000000",
     marginBottom: "2rem",
   },
@@ -166,8 +167,8 @@ const useStyles = makeStyles({
     width: " 80%",
     maxWidth: "350px",
   },
-  logoimg:{
-    height :'6rem'
+  logoimg: {
+    height: '6rem'
   }
 });
 

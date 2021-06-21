@@ -7,7 +7,7 @@ import { useState } from 'react';
 import { useHistory } from "react-router-dom";
 
 const AddContact = () => {
-    let token  = localStorage.getItem('token');
+    let token = localStorage.getItem('token');
 
     let history = useHistory();
 
@@ -17,11 +17,11 @@ const AddContact = () => {
 
     function submitcontact(data) {
         setdisabled(true);
-        axios.post('/api/contacts',data,{
+        axios.post('/api/contacts', data, {
             headers: {
                 'auth-token': token
             }
-        } )
+        })
             .then(function (response) {
                 console.log("contact saved successfully")
                 setdisabled(false);

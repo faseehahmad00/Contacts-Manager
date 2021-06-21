@@ -1,14 +1,16 @@
 import { useHistory } from "react-router-dom";
 import TopBar from "../components/topbarapp";
 import { Container } from '@material-ui/core';
-import ContactCard from "../components/contactCard";
+import ContactCard from "../components/ContactCard";
 import '../App.css'
 import { useEffect, useState } from "react";
 import axios from 'axios'
-import Typography from '@material-ui/core/Typography';
 import Pagination from '@material-ui/lab/Pagination';
+import { makeStyles } from '@material-ui/core/styles';
+
 
 const Appscreen = (props) => {
+    const classes = useStyles();
     let history = useHistory();
     let [contacts, setcontacts] = useState([]);
     let [page, setpage] = useState(1);
@@ -26,9 +28,11 @@ const Appscreen = (props) => {
         localStorage.setItem("token", '')
         history.goBack()
     }
+
     function addcontact() {
         history.push('/app/addContact')
     }
+
     function deleteContact(id) {
         axios.delete(`/api/contacts/${id}`, {
             headers: {
@@ -52,7 +56,7 @@ const Appscreen = (props) => {
     }
 
     useEffect(() => {
-        axios.get(`/api/contacts/usercontacts?page=${page}&perPage=6`, {
+        axios.get(`/api/contacts/usercontacts?page=${page}&perPage=20`, {
             headers: {
                 'auth-token': token
             }
@@ -69,32 +73,29 @@ const Appscreen = (props) => {
 
     return (
         <div>
-
             {token && <div>
                 <TopBar logout={logout} add={addcontact} />
                 <Container maxWidth='md' >
-                    {   
-                        contacts.length === 0 && 
-                        <div style={{display:"flex",justifyContent:"center",alignItems:"center",minHeight:"100vh"}}>
-                        <p style={{marginTop:"80px"}}>no contacts to display</p>
+                    {
+                        contacts.length === 0 &&
+                        <div className={classes.errorDiv}>
+                            <p>no contacts to display</p>
                         </div>
                     }
                     {contacts.length !== 0 &&
-                        <div className="contactboard" >
+                        <div className={classes.contactboard} >
                             {
                                 contacts.map((d, k) => {
                                     return (
-                                        <ContactCard className="contactCard" key={k} name={d.name} email={d.email}
+                                        <ContactCard key={k} name={d.name} email={d.email}
                                             phone={d.phone} address={d.address} deleteContact={() => deleteContact(`${d._id}`)}
                                             editContact={() => editContact(`${d._id}`)}
                                         />)
                                 })
                             }
                         </div>}
-                    <div className="fixed">
-                        <div className="pagination">
-                            <Pagination color='secondary' count={3} page={page} onChange={handleChange} />
-                        </div>
+                    <div className={classes.pagination}>
+                        <Pagination color='secondary' count={3} page={page} onChange={handleChange} />
                     </div>
                 </Container>
 
@@ -108,5 +109,33 @@ const Appscreen = (props) => {
 
     );
 }
+
+
+const useStyles = makeStyles((theme) => ({
+    contactboard: {
+        display: "flex",
+        flexDirection: "row",
+        flexWrap: "wrap",
+        justifyContent: "center",
+        alignItems: "flex-start",
+        margin: "60px 0px",
+    },
+    pagination: {
+        backgroundColor: "rgb(48,63,159,0.3)",
+        display: "flex",
+        position: "fixed",
+        bottom: 0, right: 0, left: 0,
+        flexDirection: "row",
+        justifyContent: "center",
+        alignItems: "center",
+        backdropFilter: "blur(35px)",
+    },
+    errorDiv: {
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        minHeight: "100vh"
+    },
+}));
 
 export default Appscreen;

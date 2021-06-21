@@ -16,8 +16,8 @@ export default function TopBar(props) {
           <Typography variant="h4" className={classes.title}>
             CONTACTS
           </Typography>
-          {props.showprogress && <CircularProgress/>}
-          <Button disabled={props.disabled} color="inherit" endIcon={<AddIcon/>}  onClick={props.add}/>
+          {props.showprogress && <CircularProgress />}
+          <Button disabled={props.disabled} color="inherit" endIcon={<AddIcon />} onClick={props.add} />
           <Button disabled={props.disabled} color="inherit" onClick={props.logout}>Logout</Button>
         </Toolbar>
       </AppBar>
@@ -26,17 +26,18 @@ export default function TopBar(props) {
 }
 
 const useStyles = makeStyles((theme) => ({
-    root: {
-      flexGrow: 1,
-      marginBottom:'2rem',
-      position:"fixed",
-      top:0 ,
-      right:0,
-      left:0,
-      maxHeight:'65px' 
-    },
-    title: {
-      flexGrow: 1,
-      textAlign:'left'
-    },
-  }));
+  root: {
+    flexGrow: 1,
+    marginBottom: '2rem',
+    position: "fixed",
+    top: 0,
+    right: 0,
+    left: 0,
+    maxHeight: '65px',
+    zIndex: 1000,
+  },
+  title: {
+    flexGrow: 1,
+    textAlign: 'left'
+  },
+}));
