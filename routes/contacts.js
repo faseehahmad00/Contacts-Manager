@@ -27,13 +27,9 @@ router.get('/usercontacts/count', userAuth , async function (req, res) {
 });
 
 //get a certain contact
-router.get('/:id',userAuth, async function (req, res, next) {
+router.get('/:id', async function (req, res, next) {
     let contact = await (Contacts.findById(req.params.id));
-    if(req.user._id == contact.userid)
-    {
-        return res.send(contact)
-    }
-    return res.status(400).send("unauthorized request") 
+    return res.send(contact)
 });
 
 //delete a contact

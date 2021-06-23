@@ -66,7 +66,7 @@ const SidebarLogin = (props) => {
           defaultValue=''
           render={({ field }) => <TextField
             type='password'
-            {...register("password", { minLength: 5 })}
+            {...register("password", { minLength: 4 })}
             error={errors.password ? true : false}
             fullWidth label='password' {...field}
             className={classes.inputfiled}

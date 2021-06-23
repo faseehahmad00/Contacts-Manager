@@ -3,6 +3,7 @@ import LoginScreen from './screens/LoginScreen'
 import AppScreen from './screens/appscreen'
 import AddContact from './screens/addContact'
 import EditContact from './screens/EditContact'
+import ProfileScreen from './screens/ProfileScreen';
 
 import {
   BrowserRouter as Router,
@@ -26,6 +27,9 @@ function App() {
           </Route>
           <Route exact path="/app/editContact">
             <EditContact />
+          </Route>
+          <Route exact path="/app/profile">
+            <ProfileScreen />
           </Route>
         </Switch>
       </Router>

@@ -74,7 +74,7 @@ const Appscreen = (props) => {
     return (
         <div>
             {token && <div>
-                <TopBar logout={logout} add={addcontact} />
+                <TopBar logout={logout} add={addcontact}/>
                 <Container maxWidth='md' >
                     {
                         contacts.length === 0 &&
