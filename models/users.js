@@ -17,7 +17,7 @@ function validatesignup(data){
     const schema = Joi.object(
         {
             name:Joi.string().min(2).max(20).required(),
-            email: Joi.string().email().min(0).required(),
+            email: Joi.string().email().required(),
             password :Joi.string().min(3).max(20).required(),
             role : Joi.string().min(2)
         }
