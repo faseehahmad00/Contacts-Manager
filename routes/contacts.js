@@ -50,6 +50,7 @@ router.put('/:id', userAuth, async function (req, res) {
         contact.email = req.body.email;
         contact.phone = req.body.phone;
         contact.address = req.body.address;
+        contact.url = req.body.url;
         contact.userid = req.user._id;
         contact.save();
         return res.send(contact)
@@ -64,6 +65,7 @@ router.post('/', userAuth, contactValidation, async function (req, res) {
     contact.email = req.body.email;
     contact.phone = req.body.phone;
     contact.address = req.body.address;
+    contact.url = req.body.url;
     contact.userid = req.user._id;
     a = await contact.save()
     return res.send(a)
