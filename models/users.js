@@ -9,6 +9,10 @@ var userSchema = mongoose.Schema({
     role : {
         type : String ,
         default : 'user'
+    },
+    url :{
+        type:String,
+        default:"https://res.cloudinary.com/dimm0px4q/image/upload/v1624545353/ConnectX/610-6104451_image-placeholder-png-user-profile-placeholder-image-png_mex8pb.jpg"
     }
 });
 const User= mongoose.model("users",userSchema);
@@ -19,7 +23,8 @@ function validatesignup(data){
             name:Joi.string().min(2).max(20).required(),
             email: Joi.string().email().required(),
             password :Joi.string().min(3).max(20).required(),
-            role : Joi.string().min(2)
+            role : Joi.string().min(2),
+            url : Joi.string()
         }
     );
     return schema.validate(data,{abortEarly:false});

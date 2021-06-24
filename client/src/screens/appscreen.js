@@ -14,9 +14,12 @@ const Appscreen = (props) => {
     let history = useHistory();
     let [contacts, setcontacts] = useState([]);
     let [page, setpage] = useState(1);
+
+    //pagination handler
     const handleChange = (event, value) => {
         setpage(value);
     };
+
     let token = '';
     try {
         token = localStorage.getItem("token")
@@ -63,13 +66,13 @@ const Appscreen = (props) => {
         })
             .then(function (response) {
                 setcontacts(response.data)
-                console.log(contacts.length)
+                // console.log(contacts.length)
             })
             .catch(function (error) {
                 console.log(error);
                 console.log("unable to fetch. check your network connection")
             });
-    }, [])
+    },)
 
     return (
         <div>
@@ -87,7 +90,7 @@ const Appscreen = (props) => {
                             {
                                 contacts.map((d, k) => {
                                     return (
-                                        <ContactCard key={k} name={d.name} email={d.email}
+                                        <ContactCard key={k} name={d.name} email={d.email} url={d.url}
                                             phone={d.phone} address={d.address} deleteContact={() => deleteContact(`${d._id}`)}
                                             editContact={() => editContact(`${d._id}`)}
                                         />)
@@ -114,8 +117,9 @@ const Appscreen = (props) => {
 const useStyles = makeStyles((theme) => ({
     contactboard: {
         display: "flex",
-        flexDirection: "row",
-        flexWrap: "wrap",
+        // flexDirection: "row",
+        // flexWrap: "wrap",
+        flexFlow:"row wrap",
         justifyContent: "center",
         alignItems: "flex-start",
         margin: "60px 0px",

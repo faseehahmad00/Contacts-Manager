@@ -5,17 +5,35 @@ import Button from '@material-ui/core/Button';
 import axios from 'axios'
 import { useState } from 'react';
 import { useHistory } from "react-router-dom";
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import IconButton from '@material-ui/core/IconButton';
 
 const AddContact = () => {
     let token = localStorage.getItem('token');
-
     let history = useHistory();
-
     let [disabled, setdisabled] = useState(false);
-
+    let [img, setimg] = useState('');
     const { register, control, handleSubmit, formState: { errors } } = useForm();
 
-    function submitcontact(data) {
+    async function uploadimage() {
+        let url = "https://res.cloudinary.com/dimm0px4q/image/upload/v1624545353/ConnectX/610-6104451_image-placeholder-png-user-profile-placeholder-image-png_mex8pb.jpg"
+        if(img !== '')
+        {
+        let cloudName = "dimm0px4q"
+        const formdata = new FormData()
+        formdata.append("file", img)
+        formdata.append("upload_preset", "jssrgnnd")
+        await axios.post(`https://api.cloudinary.com/v1_1/${cloudName}/upload`, formdata)
+            .then((res) =>{
+                url = res.data.secure_url 
+            })
+            .catch((err) => console.log(err) )   
+        } 
+        return url; 
+    }
+
+    async function submitcontact(data) {
+        data = {...data,"url": await uploadimage()}
         setdisabled(true);
         axios.post('/api/contacts', data, {
             headers: {
@@ -38,7 +56,12 @@ const AddContact = () => {
         <div>
             <div>
                 <Container maxWidth={'xs'} style={{ padding: '5rem' }}>
-                    <h2>ADD CONTACT</h2>
+                <div style={{ display: "flex", justifyContent: "flex-start", alignItems: "center" }}>
+                            <IconButton style={{paddingLeft:0}} onClick={() => history.goBack()}>
+                                <ArrowBackIcon/>
+                            </IconButton>
+                            <h2>ADD CONTACT</h2>
+                        </div>
                     <form onSubmit={handleSubmit(submitcontact)}>
                         <Controller
                             name="name"
@@ -98,7 +121,8 @@ const AddContact = () => {
                             />
                             }
                         />
-
+                        <p style={{ marginTop: "2rem",fontSize:"small",color:"#777"}}>upload image :</p>
+                        <input  type="file" accept="image/*"  onChange={(n) => setimg(n.target.files[0])}/>
                         <Button
                             disabled={disabled}
                             style={{ marginTop: '2rem' }}

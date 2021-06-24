@@ -2,8 +2,7 @@ import { useForm, Controller } from "react-hook-form";
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
-import { useEffect,useState } from "react";
-import axios from 'axios';
+import { useEffect} from "react";
 
 const PasswordForm = (props) => {
     const classes = useStyles();

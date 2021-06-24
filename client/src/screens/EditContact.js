@@ -7,11 +7,14 @@ import { useState, useEffect } from 'react';
 import { useHistory } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import CircularProgress from '@material-ui/core/CircularProgress';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import IconButton from '@material-ui/core/IconButton';
 
 const EditContact = (props) => {
     const location = useLocation();
     const [user, setuser] = useState({})
     const [loading, setisloading] = useState(true)
+    let [img, setimg] = useState('')
     let token = localStorage.getItem('token');
     let history = useHistory();
 
@@ -19,7 +22,24 @@ const EditContact = (props) => {
 
     const { register, control, handleSubmit, formState: { errors } } = useForm();
 
-    function submitcontact(data) {
+    async function uploadimage() {
+        let url = user.url
+        if (img !== '') {
+            let cloudName = "dimm0px4q"
+            const formdata = new FormData()
+            formdata.append("file", img)
+            formdata.append("upload_preset", "jssrgnnd")
+            await axios.post(`https://api.cloudinary.com/v1_1/${cloudName}/upload`, formdata)
+                .then((res) => {
+                    url = res.data.secure_url
+                })
+                .catch((err) => console.log(err))
+        }
+        return url;
+    }
+
+    async function submitcontact(data) {
+        data = { ...data, "url": await uploadimage() }
         setdisabled(true);
         axios.put('/api/contacts/' + location.state.userid, data, {
             headers: {
@@ -70,7 +90,13 @@ const EditContact = (props) => {
                 {loading && <div style={{ display: "flex", height: '100vh', justifyContent: 'center', alignItems: 'center' }}><CircularProgress /></div>}
                 {!loading &&
                     <Container maxWidth={'xs'} style={{ padding: '5rem' }}>
-                        <h2>EDIT CONTACT</h2>
+                        <div style={{ display: "flex", justifyContent: "flex-start", alignItems: "center" }}>
+                            <IconButton style={{paddingLeft:0}} onClick={() => history.goBack()}>
+                                <ArrowBackIcon/>
+                            </IconButton>
+                            <h2>EDIT CONTACT</h2>
+                        </div>
+
                         <form onSubmit={handleSubmit(submitcontact)}>
                             <Controller
                                 name="name"
@@ -130,7 +156,8 @@ const EditContact = (props) => {
                                 />
                                 }
                             />
-
+                            <p style={{ marginTop: "2rem", fontSize: "small", color: "#777" }}>update image :</p>
+                            <input type="file" accept="image/*" onChange={(n) => setimg(n.target.files[0])} />
                             <Button
                                 disabled={disabled}
                                 style={{ marginTop: '2rem' }}

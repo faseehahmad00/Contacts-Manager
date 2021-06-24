@@ -43,6 +43,7 @@ router.put('/changepassword', userAuth, async function (req, res, next) {
       user.email = req.user.email;
       user.password = await Encrypt(req.body.new);
       user.role = req.user.role;
+      user.url = req.user.url;
       a = await user.save();
       return res.send(a);
     }
@@ -50,7 +51,22 @@ router.put('/changepassword', userAuth, async function (req, res, next) {
   return res.status(401).send("unauthorized access")
 });
 
-//edit a user
+//update profile picture
+router.put('/changeimage', userAuth, async function (req, res, next) {
+  let user = await User.findById(req.user._id);
+  if(!user){
+    return req.status(404).send("user not found");
+  }
+  user.name = req.user.name;
+  user.email = req.user.email;
+  user.password = req.user.password;
+  user.role = req.user.role;
+  user.url = req.body.url;
+  a = await user.save();
+  return res.send(a);
+});
+
+//update a user
 router.put('/:id', signupValidation, userAuth, async function (req, res, next) {
   let user = await User.findById(req.params.id);
   if (`${req.user._id}` == `${user._id}`) {
@@ -58,6 +74,7 @@ router.put('/:id', signupValidation, userAuth, async function (req, res, next) {
     user.email = req.body.email;
     user.password = await Encrypt(req.body.password);
     user.role = req.body.role;
+    user.url = req.body.url;
     a = await user.save();
     return res.send(a);
   }
@@ -73,6 +90,7 @@ router.post('/signup', signupValidation, async function (req, res, next) {
     user.email = req.body.email;
     user.password = await Encrypt(req.body.password);
     user.role = req.body.role;
+    user.url = req.body.url;
     await user.save();
     let { name, email } = user;
     return res.status(200).send({ name, email });
