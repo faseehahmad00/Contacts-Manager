@@ -2,12 +2,13 @@ import { useForm, Controller } from "react-hook-form";
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
-import { useEffect } from "react";
+import { useEffect,useState } from "react";
+import axios from 'axios';
 
-const PasswordForm = () => {
+const PasswordForm = (props) => {
     const classes = useStyles();
     const { register, control, handleSubmit, formState: { errors } } = useForm();
-    
+
     useEffect(()=>{
         fetchUser();
     },[])
@@ -16,23 +17,9 @@ const PasswordForm = () => {
         console.log("fetching user");
     }
 
-    function submitsignup(data) {
-        console.log(data);
-        // setdisabled(true);
-        // axios.post('/api/users/signup', data)
-        //   .then(function (response) {
-        //     props.toggleform()
-        //   })
-        //   .catch(function (error) {
-        //     console.log(error);
-        //     alert("unable to signup. check your details");
-        //     setdisabled(false);
-        //   })
-      }
-
     return (
         <div>
-            <form className={classes.form} onSubmit={handleSubmit(submitsignup)}>
+        <form className={classes.form} onSubmit={handleSubmit(props.changepassword)}>
         <Controller
           name="old"
           control={control}

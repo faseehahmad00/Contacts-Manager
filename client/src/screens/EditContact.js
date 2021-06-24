@@ -40,7 +40,7 @@ const EditContact = (props) => {
     function fetchuser(data) {
         setisloading(true)
         setdisabled(true);
-        axios.get('/api/contacts/' + location.state.userid, data, {
+        axios.get('/api/contacts/' + location.state.userid, {
             headers: {
                 'auth-token': `${token}`
             }
@@ -49,7 +49,6 @@ const EditContact = (props) => {
                 setuser(response.data)
                 setdisabled(false);
                 console.log(user)
-                // history.goBack();
                 setisloading(false)
             })
             .catch(function (error) {

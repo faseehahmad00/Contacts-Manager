@@ -13,7 +13,7 @@ async function userAuth(req, res, next) {
         if (!req.user)
             return res.status(403).send("invalid token");
     } catch (err) {
-        res.status(401).send("something went wrong")
+        return res.status(401).send("something went wrong")
     }
     next()
 

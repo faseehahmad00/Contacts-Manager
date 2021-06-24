@@ -69,7 +69,7 @@ const Appscreen = (props) => {
                 console.log(error);
                 console.log("unable to fetch. check your network connection")
             });
-    }, [token, contacts.length, contacts])
+    }, [])
 
     return (
         <div>

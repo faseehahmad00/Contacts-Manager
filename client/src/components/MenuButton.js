@@ -89,3 +89,4 @@ const StyledMenuItem = withStyles((theme) => ({
     },
   },
 }))(MenuItem);
+
