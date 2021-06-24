@@ -43,7 +43,7 @@ export default function ProfileCard() {
 
     async function updateImage() {
         let data = {"url":await uploadimage()}
-        axios.put('http://localhost:3000/api/users/changeimage',data,{
+        axios.put('/api/users/changeimage',data,{
             headers: {
                 'auth-token': localStorage.getItem('token')
             }
