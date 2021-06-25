@@ -14,6 +14,7 @@ const EditContact = (props) => {
     const location = useLocation();
     const [user, setuser] = useState({})
     const [loading, setisloading] = useState(true)
+    const [isSaving,setisSaving] = useState(false);
     let [img, setimg] = useState('')
     let token = localStorage.getItem('token');
     let history = useHistory();
@@ -39,8 +40,9 @@ const EditContact = (props) => {
     }
 
     async function submitcontact(data) {
-        data = { ...data, "url": await uploadimage() }
         setdisabled(true);
+        setisSaving(true);
+        data = { ...data, "url": await uploadimage() }
         axios.put('/api/contacts/' + location.state.userid, data, {
             headers: {
                 'auth-token': token
@@ -49,11 +51,13 @@ const EditContact = (props) => {
             .then(function (response) {
                 console.log("contact saved successfully")
                 setdisabled(false);
+                setisSaving(false);
                 history.goBack();
             })
             .catch(function (error) {
                 console.log(error);
                 setdisabled(false);
+                setisSaving(false);
                 alert("UNABLE TO SAVE CONTACT")
             })
     }
@@ -91,10 +95,13 @@ const EditContact = (props) => {
                 {!loading &&
                     <Container maxWidth={'xs'} style={{ padding: '5rem' }}>
                         <div style={{ display: "flex", justifyContent: "flex-start", alignItems: "center" }}>
-                            <IconButton style={{paddingLeft:0}} onClick={() => history.goBack()}>
+                            <IconButton style={{paddingLeft:0,flex:0.1}} onClick={() => history.goBack()}>
                                 <ArrowBackIcon/>
                             </IconButton>
-                            <h2>EDIT CONTACT</h2>
+                            <h2 style={{flex:0.9}}>EDIT CONTACT</h2>
+                            { isSaving &&
+                            <CircularProgress color="secondary"/>
+                            }
                         </div>
 
                         <form onSubmit={handleSubmit(submitcontact)}>

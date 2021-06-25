@@ -7,6 +7,7 @@ import TextField from '@material-ui/core/TextField';
 import Link from '@material-ui/core/Link';
 import axios from 'axios'
 import { useHistory } from "react-router-dom";
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 
 const SidebarLogin = (props) => {
@@ -16,8 +17,10 @@ const SidebarLogin = (props) => {
 
   const { register, control, handleSubmit, formState: { errors } } = useForm();
   let [disabled, setdisabled] = useState(false);
+  let [isLoading,setLoading] = useState(false);
 
   function submitlogin({ email, password }) {
+    setLoading(true)
     setdisabled(true);
     axios.post('/api/users/login', {
       email: email,
@@ -26,15 +29,17 @@ const SidebarLogin = (props) => {
       .then(function (response) {
         setdisabled(false);
         localStorage.setItem("token", response.data)
+        setLoading(false);
         history.push({
           pathname: '/app',
-          // state: { token: response.data }
         });
       })
       .catch(function (error) {
         console.log(error);
         setdisabled(false);
-        alert("unable to login. check email and password")
+        setLoading(false);
+        alert("unable to login. check email and password");
+
       })
   }
 
@@ -93,6 +98,7 @@ const SidebarLogin = (props) => {
           New User click to signup ? Sign up
         </Link>
       </div>
+      {isLoading && <CircularProgress color="secondary"/>}
     </div>
   );
 };

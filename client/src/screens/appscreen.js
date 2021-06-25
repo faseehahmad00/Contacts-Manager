@@ -7,13 +7,16 @@ import { useEffect, useState } from "react";
 import axios from 'axios'
 import Pagination from '@material-ui/lab/Pagination';
 import { makeStyles } from '@material-ui/core/styles';
-
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 const Appscreen = (props) => {
     const classes = useStyles();
     let history = useHistory();
     let [contacts, setcontacts] = useState([]);
     let [page, setpage] = useState(1);
+    let [isLoading,setLoading] = useState(false);
+    let perPage = 8;
+    let [pageCount,setPageCount] = useState(5);
 
     //pagination handler
     const handleChange = (event, value) => {
@@ -57,28 +60,39 @@ const Appscreen = (props) => {
             state: { userid: id }
         })
     }
+    
+    function fetchcontacts(){
+            axios.get(`/api/contacts/usercontacts?page=${page}&perPage=${perPage}`, {
+                headers: {
+                    'auth-token': token
+                }
+            })
+                .then(function (response) {
+                    setcontacts(response.data)
+                    setLoading(false)
+                })
+                .catch(function (error) {
+                    console.log(error);
+                    console.log("unable to fetch. check your network connection")
+                    setLoading(false)
+                });
+    }
 
     useEffect(() => {
-        axios.get(`/api/contacts/usercontacts?page=${page}&perPage=20`, {
-            headers: {
-                'auth-token': token
-            }
-        })
-            .then(function (response) {
-                setcontacts(response.data)
-                // console.log(contacts.length)
-            })
-            .catch(function (error) {
-                console.log(error);
-                console.log("unable to fetch. check your network connection")
-            });
-    },)
+        fetchcontacts()
+    })
 
     return (
         <div>
             {token && <div>
                 <TopBar logout={logout} add={addcontact}/>
                 <Container maxWidth='md' >
+                    {
+                        isLoading &&
+                        <div className={classes.errorDiv}>
+                            <CircularProgress/>
+                        </div>
+                    }
                     {
                         contacts.length === 0 &&
                         <div className={classes.errorDiv}>
@@ -98,7 +112,7 @@ const Appscreen = (props) => {
                             }
                         </div>}
                     <div className={classes.pagination}>
-                        <Pagination color='secondary' count={3} page={page} onChange={handleChange} />
+                        <Pagination color='secondary' count={pageCount} page={page} onChange={handleChange} />
                     </div>
                 </Container>
 
@@ -117,8 +131,6 @@ const Appscreen = (props) => {
 const useStyles = makeStyles((theme) => ({
     contactboard: {
         display: "flex",
-        // flexDirection: "row",
-        // flexWrap: "wrap",
         flexFlow:"row wrap",
         justifyContent: "center",
         alignItems: "flex-start",

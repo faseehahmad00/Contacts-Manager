@@ -4,8 +4,8 @@ import ProfileCard from '../components/profilecard';
 
 const ProfileScreen = () => {
     const classes = useStyles();
-
     let token = localStorage.getItem('token');
+    
     return (
         <div>
             {token &&

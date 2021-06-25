@@ -6,20 +6,25 @@ import { useForm, Controller } from "react-hook-form";
 import TextField from '@material-ui/core/TextField';
 import Link from '@material-ui/core/Link';
 import axios from 'axios'
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 const SidebarSignup = (props) => {
   const classes = useStyles();
   const { register, control, handleSubmit, formState: { errors } } = useForm();
   let [disabled, setdisabled] = useState(false);
+  let [isLoading,setLoading] = useState(false);
 
   function submitsignup(data) {
+    setLoading(true);
     setdisabled(true);
     axios.post('/api/users/signup', data)
       .then(function (response) {
+        setLoading(false)
         props.toggleform()
       })
       .catch(function (error) {
         console.log(error);
+        setLoading(false)
         alert("unable to signup. check your details");
         setdisabled(false);
       })
@@ -97,6 +102,11 @@ const SidebarSignup = (props) => {
           Already have an account? Sign in
         </Link>
       </div>
+      {
+        isLoading && 
+        <CircularProgress color="secondary"/>
+      }
+      
     </div>
   );
 };

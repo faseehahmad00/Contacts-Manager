@@ -7,12 +7,14 @@ import { useState } from 'react';
 import { useHistory } from "react-router-dom";
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import IconButton from '@material-ui/core/IconButton';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 const AddContact = () => {
     let token = localStorage.getItem('token');
     let history = useHistory();
     let [disabled, setdisabled] = useState(false);
     let [img, setimg] = useState('');
+    let [isLoading,setLoading] = useState(false);
     const { register, control, handleSubmit, formState: { errors } } = useForm();
 
     async function uploadimage() {
@@ -33,8 +35,9 @@ const AddContact = () => {
     }
 
     async function submitcontact(data) {
-        data = {...data,"url": await uploadimage()}
+        setLoading(true)
         setdisabled(true);
+        data = {...data,"url": await uploadimage()}
         axios.post('/api/contacts', data, {
             headers: {
                 'auth-token': token
@@ -43,11 +46,13 @@ const AddContact = () => {
             .then(function (response) {
                 console.log("contact saved successfully")
                 setdisabled(false);
+                setLoading(false);
                 history.goBack();
             })
             .catch(function (error) {
                 console.log(error);
                 setdisabled(false);
+                setLoading(false);
                 alert("UNABLE TO ADD CONTACT")
             })
     }
@@ -55,13 +60,16 @@ const AddContact = () => {
     return (
         <div>
             <div>
-                <Container maxWidth={'xs'} style={{ padding: '5rem' }}>
-                <div style={{ display: "flex", justifyContent: "flex-start", alignItems: "center" }}>
-                            <IconButton style={{paddingLeft:0}} onClick={() => history.goBack()}>
+                <Container maxWidth={'xs'} style={{ padding: '3rem' }}>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                            <IconButton style={{paddingLeft:0,flex:0.1}} onClick={() => history.goBack()}>
                                 <ArrowBackIcon/>
                             </IconButton>
-                            <h2>ADD CONTACT</h2>
-                        </div>
+                            <h2 style={{flex:0.9}}>ADD CONTACT</h2>
+                            { isLoading &&
+                            <CircularProgress color="secondary"/>
+                            }
+                            </div>
                     <form onSubmit={handleSubmit(submitcontact)}>
                         <Controller
                             name="name"
