@@ -14,15 +14,30 @@ const Appscreen = (props) => {
     let history = useHistory();
     let [contacts, setcontacts] = useState([]);
     let [page, setpage] = useState(1);
-    let [isLoading,setLoading] = useState(false);
-    let perPage = 8;
-    let [pageCount,setPageCount] = useState(5);
+    let [isLoading, setLoading] = useState(false);
+    let [perPage, setPerPage] = useState(2);
+    let [pageCount, setPageCount] = useState(5);
+    let [recordCount, setRecordCount] = useState(10);
 
     //pagination handler
     const handleChange = (event, value) => {
         setpage(value);
     };
 
+    function getTotalDocuments() {
+        axios.get(`/api/contacts/usercontacts/count`, {
+            headers: {
+                'auth-token': token
+            }
+        })
+            .then(function (response) {
+                setRecordCount(response.data)
+                setPageCount(Math.ceil(recordCount / perPage))
+            })
+            .catch(function (error) {
+                setPageCount(5)
+            });
+    }
     let token = '';
     try {
         token = localStorage.getItem("token")
@@ -60,37 +75,38 @@ const Appscreen = (props) => {
             state: { userid: id }
         })
     }
-    
-    function fetchcontacts(){
-            axios.get(`/api/contacts/usercontacts?page=${page}&perPage=${perPage}`, {
-                headers: {
-                    'auth-token': token
-                }
+
+    function fetchcontacts() {
+        axios.get(`/api/contacts/usercontacts?page=${page}&perPage=${perPage}`, {
+            headers: {
+                'auth-token': token
+            }
+        })
+            .then(function (response) {
+                setcontacts(response.data)
+                setLoading(false)
             })
-                .then(function (response) {
-                    setcontacts(response.data)
-                    setLoading(false)
-                })
-                .catch(function (error) {
-                    console.log(error);
-                    console.log("unable to fetch. check your network connection")
-                    setLoading(false)
-                });
+            .catch(function (error) {
+                console.log(error);
+                console.log("unable to fetch. check your network connection")
+                setLoading(false)
+            });
     }
 
     useEffect(() => {
         fetchcontacts()
+        getTotalDocuments()
     })
 
     return (
         <div>
             {token && <div>
-                <TopBar logout={logout} add={addcontact}/>
+                <TopBar logout={logout} add={addcontact} />
                 <Container maxWidth='md' >
                     {
                         isLoading &&
                         <div className={classes.errorDiv}>
-                            <CircularProgress/>
+                            <CircularProgress />
                         </div>
                     }
                     {
@@ -131,7 +147,7 @@ const Appscreen = (props) => {
 const useStyles = makeStyles((theme) => ({
     contactboard: {
         display: "flex",
-        flexFlow:"row wrap",
+        flexFlow: "row wrap",
         justifyContent: "center",
         alignItems: "flex-start",
         margin: "60px 0px",
