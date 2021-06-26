@@ -59,7 +59,7 @@ const AddContact = () => {
 
     return (
         <div>
-            <div>
+            {token && <div>
                 <Container maxWidth={'xs'} style={{ padding: '3rem' }}>
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                             <IconButton style={{paddingLeft:0,flex:0.1}} onClick={() => history.goBack()}>
@@ -144,6 +144,8 @@ const AddContact = () => {
                     </form>
                 </Container>
             </div>
+            }
+            {!token && <h1>Unauthorized Access</h1>}
         </div>
     );
 }

@@ -11,12 +11,12 @@ import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import IconButton from '@material-ui/core/IconButton';
 
 const EditContact = (props) => {
+    let token = localStorage.getItem('token');
     const location = useLocation();
     const [user, setuser] = useState({})
     const [loading, setisloading] = useState(true)
     const [isSaving,setisSaving] = useState(false);
     let [img, setimg] = useState('')
-    let token = localStorage.getItem('token');
     let history = useHistory();
 
     let [disabled, setdisabled] = useState(false);
@@ -83,9 +83,11 @@ const EditContact = (props) => {
     }
 
     useEffect(() => {
-        setTimeout(() => {
-            fetchuser()
-        }, 1000);
+            try {
+                fetchuser()
+            } catch (err) {
+                history.goBack()
+            }
     }, [])
 
     return (

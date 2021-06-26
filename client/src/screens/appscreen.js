@@ -15,15 +15,23 @@ const Appscreen = (props) => {
     let [contacts, setcontacts] = useState([]);
     let [page, setpage] = useState(1);
     let [isLoading, setLoading] = useState(false);
-    let [perPage, setPerPage] = useState(2);
+    let [perPage, setPerPage] = useState(8);
     let [pageCount, setPageCount] = useState(5);
     let [recordCount, setRecordCount] = useState(10);
+
+    let token = '';
+    try {
+        token = localStorage.getItem("token")
+    } catch (err) {
+        token = null
+    }
 
     //pagination handler
     const handleChange = (event, value) => {
         setpage(value);
     };
 
+    //getting total records of 
     function getTotalDocuments() {
         axios.get(`/api/contacts/usercontacts/count`, {
             headers: {
@@ -38,12 +46,7 @@ const Appscreen = (props) => {
                 setPageCount(5)
             });
     }
-    let token = '';
-    try {
-        token = localStorage.getItem("token")
-    } catch (err) {
-        token = null
-    }
+
 
     function logout() {
         localStorage.setItem("token", '')
@@ -99,7 +102,7 @@ const Appscreen = (props) => {
     })
 
     return (
-        <div>
+        <div style={{backgroundColor:"#f7fbfd",minHeight:"100vh"}}>
             {token && <div>
                 <TopBar logout={logout} add={addcontact} />
                 <Container maxWidth='md' >

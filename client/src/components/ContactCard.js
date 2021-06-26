@@ -31,7 +31,7 @@ const ContactCard = (props) => {
                     </CardContent>
                     <CloudinaryContext cloudName="dimm0px4q">
                         <Image publicId={props.url} 
-                        style={{ height: "80px", width: "80px" ,borderRadius:"100px" }}
+                        style={{ height: "90px", width: "90px" ,borderRadius:"100px" }}
                         >
                             <Transformation gravity="face" height="400" width="400" crop="crop" />
                         </Image>
@@ -51,7 +51,7 @@ const ContactCard = (props) => {
 
 const useStyles = makeStyles((theme) => ({
     contactCard: {
-        width: "22em",
+        width: "25em",
         margin: "1rem",
     },
     contactBody: {
