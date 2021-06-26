@@ -15,9 +15,7 @@ const Appscreen = (props) => {
     let [contacts, setcontacts] = useState([]);
     let [page, setpage] = useState(1);
     let [isLoading, setLoading] = useState(false);
-    let [perPage, setPerPage] = useState(8);
-    let [pageCount, setPageCount] = useState(5);
-    let [recordCount, setRecordCount] = useState(10);
+
 
     let token = '';
     try {
@@ -30,22 +28,6 @@ const Appscreen = (props) => {
     const handleChange = (event, value) => {
         setpage(value);
     };
-
-    //getting total records of 
-    function getTotalDocuments() {
-        axios.get(`/api/contacts/usercontacts/count`, {
-            headers: {
-                'auth-token': token
-            }
-        })
-            .then(function (response) {
-                setRecordCount(response.data)
-                setPageCount(Math.ceil(recordCount / perPage))
-            })
-            .catch(function (error) {
-                setPageCount(5)
-            });
-    }
 
 
     function logout() {
@@ -80,7 +62,7 @@ const Appscreen = (props) => {
     }
 
     function fetchcontacts() {
-        axios.get(`/api/contacts/usercontacts?page=${page}&perPage=${perPage}`, {
+        axios.get(`/api/contacts/usercontacts?page=${page}&perPage=8`, {
             headers: {
                 'auth-token': token
             }
@@ -98,7 +80,6 @@ const Appscreen = (props) => {
 
     useEffect(() => {
         fetchcontacts()
-        getTotalDocuments()
     })
 
     return (
@@ -131,7 +112,7 @@ const Appscreen = (props) => {
                             }
                         </div>}
                     <div className={classes.pagination}>
-                        <Pagination color='secondary' count={pageCount} page={page} onChange={handleChange} />
+                        <Pagination color='secondary' count={3} page={page} onChange={handleChange} />
                     </div>
                 </Container>
 
