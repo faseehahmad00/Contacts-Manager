@@ -47,6 +47,7 @@ const Appscreen = (props) => {
         })
             .then(function (response) {
                 console.log(response)
+                fetchcontacts()
             })
             .catch(function (error) {
                 console.log(error);
@@ -80,7 +81,7 @@ const Appscreen = (props) => {
 
     useEffect(() => {
         fetchcontacts()
-    })
+    },[page])
 
     return (
         <div style={{backgroundColor:"#f7fbfd",minHeight:"100vh"}}>
